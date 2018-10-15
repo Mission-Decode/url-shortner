@@ -1,12 +1,15 @@
-package service.impl;
+package com.myproject.urlshortner.service.impl;
 
-import common.IDConverter;
+import com.myproject.urlshortner.common.IDConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import repository.UrlRepository;
-import service.UrlShortnerService;
+import com.myproject.urlshortner.repository.UrlRepository;
+import com.myproject.urlshortner.service.UrlShortnerService;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 @Component
 public class UrlShortnerServiceImpl implements UrlShortnerService {
@@ -21,7 +24,7 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
 
     @Override
     public String shortenUrl(String localUrl, String longUrl) {
-        LOGGER.info("Shortening URL: {}" + longUrl);
+        LOGGER.info("Shortening URL: " + longUrl);
         Long id = urlRepository.incrementID();
         String uniqueId = IDConverter.createUniqueId(id);
         urlRepository.saveUrl("url:"+id, longUrl);
@@ -30,14 +33,19 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
         return shortenedURL;
     }
 
-    private String formatLocalURLFromShortener(String localUrl) {
-        String[] addressComponents = localUrl.split("/");
-        // remove the endpoint (last index)
+    private static String formatLocalURLFromShortener(String localUrl) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < addressComponents.length - 1; ++i) {
-            sb.append(addressComponents[i]);
+        URL url;
+        try {
+            url = new URL(localUrl);
+            sb.append(url.getProtocol());
+            sb.append(":");
+            sb.append("//");
+            sb.append(url.getHost());
+            sb.append("/");
+        } catch (MalformedURLException e) {
+            LOGGER.error("Invalid url");
         }
-        sb.append('/');
         return sb.toString();
     }
 
@@ -45,7 +53,7 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
     public String getLongUrlFromId(String uniqueId) {
         Long id = IDConverter.getIdForUrl(uniqueId);
         String url = urlRepository.getUrl(id);
-        LOGGER.info("Retrieved {} for {}", url, id);
+        LOGGER.info("Retrieved: "+url +" for: "+ id);
         return url;
     }
 }

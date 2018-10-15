@@ -1,4 +1,4 @@
-package common;
+package com.myproject.urlshortner.common;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,8 +16,12 @@ public class UrlValidator {
     private static Matcher matcher;
 
     public static boolean isValidUrl(String url) {
-        matcher = urlPattern.matcher(url);
-        return matcher.matches();
+        if (url != null) {
+            matcher = urlPattern.matcher(url);
+            return matcher.matches();
+        } else {
+            return false;
+        }
     }
 
 }

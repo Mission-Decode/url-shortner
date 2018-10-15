@@ -1,4 +1,4 @@
-package service;
+package com.myproject.urlshortner.service;
 
 public interface UrlShortnerService {
 

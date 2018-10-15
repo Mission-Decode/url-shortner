@@ -1,4 +1,4 @@
-package repository;
+package com.myproject.urlshortner.repository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

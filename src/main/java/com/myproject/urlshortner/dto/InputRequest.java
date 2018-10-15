@@ -1,4 +1,4 @@
-package dto;
+package com.myproject.urlshortner.dto;
 
 public class InputRequest{
 

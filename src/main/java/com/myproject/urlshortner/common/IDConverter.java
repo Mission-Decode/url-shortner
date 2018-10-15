@@ -1,4 +1,4 @@
-package common;
+package com.myproject.urlshortner.common;
 
 import java.util.*;
 
