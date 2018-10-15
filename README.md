@@ -2,6 +2,6 @@
 A url shortner built using java and redis.
 
 # Pre-requisites
-Java
-Spring Boot
-Redis(Server and CLI needed)
+1. Java 
+2. Spring Boot
+3. Redis(Server and CLI needed)
